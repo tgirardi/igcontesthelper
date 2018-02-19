@@ -1,0 +1,13 @@
+{
+  "name": "Instagram Contest Helper",
+  "version": "0.0.1",
+  "author": "Tomás Girardi - https://github.com/tgirardi",
+  "manifest_version": 2,
+  "description": "",
+  "content_scripts" : [
+    {
+      "matches": ["*://*.instagram.com/p/*"],
+      "js": ["igcontesthelper.js"]
+    }
+  ]
+}

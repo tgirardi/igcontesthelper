@@ -1,23 +1,25 @@
 {
   "name": "igcontesthelper",
-  "version": "0.0.1",
-  "description": "Chrome Extension that makes it easier to run a contest in Instagram for which you randomly chose between people who commented or liked a photo",
+  "version": "0.1.0",
+  "description": "Extensión de chrome que facilita hacer sorteos sobre quienes comentaron o hicieron like a un post de instagram",
   "main": "igcontesthelper.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "mkdir dist && crx pack . -o dist/igcontesthelper.crx"
+    "crx": "mkdir -p dist && crx pack src/ -o dist/igcontesthelper.crx && rm key.pem",
+    "build": "mkdir -p dist && bestzip dist/igcontesthelper.zip src/*"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tgirardi/igcontesthelper.git"
   },
-  "author": "Tomás Girardi <tgirardi@gmail.com>",
-  "license": "ISC",
+  "author": "Tomás Girardi <tgirardi@turbomaret.cl>",
+  "license": "ISC - SEE LICENSE IN src/LICENSE.txt",
   "bugs": {
     "url": "https://github.com/tgirardi/igcontesthelper/issues"
   },
   "homepage": "https://github.com/tgirardi/igcontesthelper#readme",
   "devDependencies": {
+    "bestzip": "^1.1.4",
     "crx": "^3.2.1"
   }
 }

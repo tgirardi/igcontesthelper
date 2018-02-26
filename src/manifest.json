@@ -1,7 +1,7 @@
 {
   "name": "Ayuda para Concursos en Instagram",
   "short_name": "igcontesthelper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Tomás Girardi - https://linkedin.com/in/tomasgirardi",
   "manifest_version": 2,
   "description": "Extensión de chrome que facilita hacer sorteos sobre quienes comentaron o hicieron like a un post de instagram",

@@ -21,7 +21,7 @@
   const helperUITemplate = `
   <div style="position: fixed;right: 5px;top: 0;border-radius: 0 0 3px 3px;background-color: #ccc;padding: 2px;box-shadow: 1px 1px 1px rgba(0,0,0,0.5);text-align: center; z-index: 9999">
     <div data-ig-contest-helper-buttons style="display: none;">
-      <p>By <a href="https://linkedin.com/in/tomasgirardi">Tomás Girardi</a> - Turbomarket</p>
+      <p>By <a target="_blank" href="https://linkedin.com/in/tomas-girardi/">Tomás Girardi</a> - Turbomarket</p>
       <button data-ig-contest-likes-button>Likes</button>
       <button data-ig-contest-comments-button>Comments</button>
       <a target="_blank" href="https://random.org/"><button>Random.org</button></a>

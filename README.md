@@ -4,6 +4,10 @@ Extensión de Chrome que te ayuda a realizar concursos en Instagram donde eliges
 
 Autor: Tomás Girardi - https://linkedin.com/in/tomasgirardi - de Turbomarket - https://www.turbomarket.cl/
 
+## Instalación
+
+Agrega la extensión a chrome visitando https://chrome.google.com/webstore/detail/ayuda-para-concursos-en-i/coanhhgnappmcaklneapeahkjnhoemod?hl=es
+
 ## Para usar:
 
 Recomendación: ver este video explicativo -> https://youtu.be/EkQ2hw8vYOg

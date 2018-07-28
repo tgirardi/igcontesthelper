@@ -15,6 +15,7 @@
   const TAG_TEXT = 'Etiquetando...';
   const DONE_TEXT = 'Listo';
   const WARNING_TEXT = '(advertencia: parecen no haberse cargado todos, vuelva a apretar el botón)';
+  const LOADED_ITEMS_TEXT = 'Items cargados:';
   const COMMENTS = 0;
   const LIKES = 1;
 
@@ -25,12 +26,12 @@
       <button data-ig-contest-likes-button>Likes</button>
       <button data-ig-contest-comments-button>Comments</button>
       <a target="_blank" href="https://random.org/"><button>Random.org</button></a>
+      <div data-ig-contest-note style="color:blue; padding: 2px 6px;"></div>
     </div>
     <p data-ig-contest-handle style="font-size: 10px; line-height: 10px;cursor: pointer;">Contest Helper ⬇</p>
   </div>
   `;
 
-  const DIFF_WAIT = MAX_WAIT - MIN_WAIT;
   let loadMoreCommentsBtn;
   let commentersNames = {};
   let counter = -1;
@@ -53,10 +54,7 @@
     helperButtonLikes = helperUI.querySelector('button[data-ig-contest-likes-button]');
     helperButtonComments = helperUI.querySelector('button[data-ig-contest-comments-button]');
     helperHandle = helperUI.querySelector('p[data-ig-contest-handle]');
-    helperNote = document.createElement('div');
-    helperNote.style.color = 'blue';
-    helperNote.style.padding = '2px 6px';
-    helperButtons.append(helperNote);
+    helperNote = helperUI.querySelector('div[data-ig-contest-note]');
 
     helperButtonLikes.onclick = () => start(LIKES);
     helperButtonComments.onclick = () => start(COMMENTS);
@@ -92,7 +90,13 @@
   }, 800);
 
   const stillLeft = (type) => {
-    return type === COMMENTS ? (loadMoreCommentsBtn && loadMoreCommentsBtn.isConnected) : document.querySelector(LOAD_MORE_LIKES_ELEM_SELECTOR);
+    return type === COMMENTS ? (loadMoreCommentsBtn && loadMoreCommentsBtn.isConnected) :
+      document.querySelector(LOAD_MORE_LIKES_ELEM_SELECTOR);
+  }
+
+  const getItems = (type) => {
+    return document.querySelectorAll(type === COMMENTS ? COMMENTER_NAME_SELECTOR :
+      LIKER_NAME_SELECTOR);
   }
 
   const tag = (type) => {
@@ -103,7 +107,14 @@
 
     window.clearInterval(backCountInterval);
 
-    document.querySelectorAll(type === COMMENTS ? COMMENTER_NAME_SELECTOR : LIKER_NAME_SELECTOR).forEach((elem) => {
+    document.querySelectorAll('span[data-ig-contest-number]').forEach(elem => {
+      let number = parseInt(elem.textContent);
+      if(number > counter) {
+        counter = number;
+      }
+    });
+
+    getItems(type).forEach((elem) => {
       let commenterName = elem.textContent;
       let number;
 
@@ -145,15 +156,20 @@
     }, 1000);
   }
 
-  const loadMore = (type) => {
-    console.log(type === COMMENTS ? `%c${LOADING_MORE_COMMENTS_TEXT}` : `%c${LOADING_MORE_LIKES_TEXT}`, 'color: blue');
-    notify(type === COMMENTS ? LOADING_MORE_COMMENTS_TEXT : LOADING_MORE_LIKES_TEXT);
+  const loadMore = (type, minWait = MIN_WAIT, maxWait = MAX_WAIT) => {
+    let diffWait = maxWait - minWait;
+    let nitems = getItems(type).length;
+    console.log(type === COMMENTS ? `%c${LOADING_MORE_COMMENTS_TEXT}` :
+      `%c${LOADING_MORE_LIKES_TEXT}`, 'color: blue');
+    console.log(`${LOADED_ITEMS_TEXT} ${nitems}`);
+    notify(type === COMMENTS ? `${LOADING_MORE_COMMENTS_TEXT} ${LOADED_ITEMS_TEXT} ${nitems}` :
+      `${LOADING_MORE_LIKES_TEXT} ${LOADED_ITEMS_TEXT} ${nitems}`);
 
     helperButtonLikes.onclick = () => start(LIKES);
 
     window.clearInterval(backCountInterval);
     if(stillLeft(type)) {
-      let wait = MIN_WAIT + Math.random() * DIFF_WAIT;
+      let wait = minWait + Math.random() * diffWait;
       if(type === COMMENTS) {
         loadMoreCommentsBtn.click();
       } else {
@@ -162,13 +178,13 @@
 
       console.log(`%c${WAITING_TEXT} ${wait}s`, 'color: lightblue');
       countDown(wait);
-      pauseTimeout = window.setTimeout(loadMore.bind(loadMore, type), wait * 1000);
+      pauseTimeout = window.setTimeout(loadMore.bind(loadMore, type, minWait, maxWait), wait * 1000);
     } else {
       tag(type);
     }
   }
 
-  const start = (type) => {
+  const start = (type, minWait = MIN_WAIT, maxWait = MAX_WAIT) => {
     window.clearTimeout(pauseTimeout);
     window.clearInterval(backCountInterval);
 
@@ -176,7 +192,7 @@
     if(type === COMMENTS) {
       helperButtonLikes.disabled = true;
       loadMoreCommentsBtn = document.querySelector(LOAD_MORE_COMMENTS_BTN_SELECTOR);
-      loadMore(type)
+      loadMore(type, minWait, maxWait)
     } else {
       helperButtonComments.disabled = true;
 
@@ -184,9 +200,9 @@
         document.querySelector(LIKES_BTN_SELECTOR).click();
         console.log(`%c${WAITING_TEXT} 10s`, 'color: lightblue');
         countDown(10);
-        pauseTimeout = window.setTimeout(loadMore.bind(loadMore, type), 10000);
+        pauseTimeout = window.setTimeout(loadMore.bind(loadMore, type, minWait, maxWait), 10000);
       } else {
-        loadMore(type);
+        loadMore(type, minWait, maxWait);
       }
     }
     started = true;
@@ -195,6 +211,10 @@
   const toggleButtons = () => {
     helperButtons.style.display = helperButtons.style.display === 'block' ? 'none' : 'block';
   };
+
+  if(!window.igcontesthelper) {
+    window.igcontesthelper = { start };
+  }
 
   insertElements();
 }());

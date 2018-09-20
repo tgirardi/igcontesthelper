@@ -3,11 +3,11 @@
 
   const MIN_WAIT = 10;
   const MAX_WAIT = 20;
-  const LOAD_MORE_COMMENTS_BTN_SELECTOR = '.vTJ4h.Dz3II';
+  const LOAD_MORE_COMMENTS_BTN_SELECTOR = '.Z4IfV';
   const COMMENTER_NAME_SELECTOR = '.C4VMK';
   const LOAD_MORE_LIKES_ELEM_SELECTOR = '.kM-aa';
   const LIKES_BTN_SELECTOR = '.zV_Nj';
-  const LIKER_NAME_SELECTOR = '.FsskP';
+  const LIKER_NAME_SELECTOR = '.FPmhX';
   const RESULT_TEXT = 'Participantes:';
   const LOADING_MORE_COMMENTS_TEXT = 'Cargando más comentarios...';
   const LOADING_MORE_LIKES_TEXT = 'Cargando más likes...';
